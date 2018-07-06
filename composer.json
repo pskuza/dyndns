@@ -18,7 +18,8 @@
     "paragonie/easydb": "2.6.2",
     "nikic/fast-route": "1.3.0",
     "webmozart/assert": "1.3.0",
-    "ext-apcu": "*"
+    "ext-apcu": "*",
+    "cloudflare/sdk": "1.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "7.2.6",
