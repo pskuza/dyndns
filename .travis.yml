@@ -1,0 +1,17 @@
+language: php
+php:
+    - 7.2
+services:
+    - docker
+before_install:
+    - echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+install:
+    - docker build -t dyndns .
+    - docker run -d -p 127.0.0.1:80:80 -v /tmp:/config --name dyndns dyndns
+before_script:
+  - phpenv config-rm xdebug.ini
+script:
+  - composer install
+  - phpunit
+after_failure:
+  - docker logs rss-server
