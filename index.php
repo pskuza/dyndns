@@ -9,10 +9,10 @@ use pskuza\dyndns;
 
 try {
 
-    $rss = new dyndns\server("");
+    $rss = new dyndns\server("config.ini", "dyndns.db");
 
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $r) {
-        $r->addRoute('GET', '/', ['server', 'update']);
+        $r->addRoute('GET', '/update', ['server', 'update']);
     }, [
         'cacheFile' => __DIR__ . '/route.cache'
     ]);
@@ -37,7 +37,7 @@ try {
             try {
                 $return = $rss->$class->$handler($options);
             } catch (\InvalidArgumentException $e) {
-                $rss->error(400, 'Invalid Argument');
+                $rss->error(400, 'Invalid Argument: ' . $e->getMessage());
             }
             if ($return[0] === true) {
                 $rss->success($return[1], $return[2]);
