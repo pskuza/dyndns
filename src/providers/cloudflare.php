@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace pskuza\dyndns\providers;
 
-class cloudflare implements pskuza\dyndns\providers\dns
+class cloudflare implements dns
 {
     public function __construct(\Noodlehaus\Config $config)
     {

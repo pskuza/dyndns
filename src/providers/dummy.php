@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace pskuza\dyndns\providers;
 
-class dummy implements pskuza\dyndns\providers\dns
+class dummy implements dns
 {
     public function create_record(): bool
     {
