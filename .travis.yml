@@ -7,7 +7,7 @@ before_install:
     - echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 install:
     - docker build -t dyndns .
-    - mkdir /tmp/dyndns && cp tests/config.test.ini /tmp/dyndns
+    - mkdir /tmp/dyndns && cp tests/config.test.ini /tmp/dyndns && cp docker/data/dyndns.db /tmp/dyndns
     - docker run -d -p 127.0.0.1:80:80 -v /tmp/dyndns:/data --name dyndns dyndns
 before_script:
   - phpenv config-rm xdebug.ini
