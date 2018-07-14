@@ -3,5 +3,5 @@ domain = example.com
 provider = cloudflare
 
 [cloudflare]
-email =
-apikey =
+email = example@example.com
+apikey = yourapikey
