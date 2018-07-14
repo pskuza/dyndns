@@ -15,7 +15,7 @@ RUN set -x \
 COPY docker/ /
 
 COPY index.php /var/www/html
-RUN sed -i 's/^\$rss.*/\$rss = new dyndns\\server("/data/config.ini", "/data/dyndns.db");' /var/www/html/index.php
+RUN sed -i 's#\$rss.*#\$rss = new dyndns\\server("/data/config.ini", "/data/dyndns.db");#' /var/www/html/index.php
 COPY composer.json /var/www/html
 COPY src/ /var/www/html
 
