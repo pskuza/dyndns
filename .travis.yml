@@ -11,6 +11,7 @@ install:
     - docker run -d -p 127.0.0.1:80:80 -v /tmp/dyndns:/data --name dyndns dyndns
 before_script:
   - phpenv config-rm xdebug.ini
+  - ls -R /tmp/dyndns
 script:
   - composer install
   - phpunit
