@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace pskuza\dyndns;
+use pskuza\dyndns\providers;
 use Doctrine\Common\Cache\ApcuCache;
 use Noodlehaus\Config;
 
@@ -10,6 +11,7 @@ class server
     protected $db;
     protected $cache;
     protected $config;
+    protected $provider;
 
     public function __construct(string $config, string $db)
     {
@@ -31,6 +33,14 @@ class server
             $this->config = new Config($config);
         } catch (\Exception $e) {
             $this->error(500, 'Could not read config.');
+        }
+
+        //read config and setup provider
+        $provider_config = $this->config->get('dyndns.provider');
+        if (class_exists($provider_config)) {
+            $this->provider = new $provider_config($this->config);
+        } else {
+            $this->error(500, 'The configured provider does not exist.');
         }
     }
 
