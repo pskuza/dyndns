@@ -16,6 +16,7 @@ COPY docker/ /
 
 COPY index.php /var/www/html
 COPY composer.json /var/www/html
+COPY src/ /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 RUN COMPOSER_CACHE_DIR=/dev/null composer install -d /var/www/html/ --no-dev

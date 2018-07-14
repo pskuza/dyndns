@@ -6,5 +6,7 @@ namespace pskuza\dyndns;
 
 class server
 {
-
+    public function __construct(string $config)
+    {
+    }
 }
