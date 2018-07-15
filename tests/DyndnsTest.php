@@ -31,5 +31,7 @@ class RSSTest extends TestCase
         //register set to true and token set
         shell_exec('sed -i s/allow_register = false/allow_register = true/g /data/config.ini');
         shell_exec('sed -i s/register_token =/register_token ='.bin2hex(random_bytes(32)).'/g /data/config.ini');
+        $r = $this->client->request('GET', '/register');
+        $this->assertEquals(200, $r->getStatusCode());
     }
 }
