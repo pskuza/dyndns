@@ -12,7 +12,9 @@ try {
     $rss = new dyndns\server("config.ini", "dyndns.db");
 
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $r) {
+        $r->addRoute('GET', '/', ['server', 'get']);
         $r->addRoute('GET', '/update', ['server', 'update']);
+        $r->addRoute('GET', '/register', ['server', 'register']);
     }, [
         'cacheFile' => __DIR__ . '/route.cache'
     ]);

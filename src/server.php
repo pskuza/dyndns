@@ -44,7 +44,12 @@ class server
     }
 
     public function update(): array {
+
         return [true, 200, "update was called"];
+    }
+
+    private function get_ip_from_headers() {
+
     }
 
     public function error(int $http_code, string $error_message) {

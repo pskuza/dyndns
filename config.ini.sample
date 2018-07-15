@@ -4,4 +4,4 @@ provider = cloudflare
 
 [cloudflare]
 email = example@example.com
-apikey = yourapikey
+key = yourapikey
