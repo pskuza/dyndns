@@ -43,14 +43,14 @@ class server
         }
     }
 
-    public function update(): array {
+    public function update(array $input): array {
         return [true, 200, "update was called"];
     }
 
-    public function register(): array {
+    public function register(array $input): array {
         if($this->config->get('dyndns.allow_register') === true) {
             if(empty($this->config->get('dyndns.register_token'))) {
-                throw new InvalidSetup("dyndns was not setup correctly the register_token is not set. Run $ openssl rand -hex 32 and paste it into the config.");
+                return [false, 500, "dyndns was not setup correctly the register_token is not set. Run $ openssl rand -hex 32 and paste it into the config."];
             } else {
                 return [true, 200, "register was called"];
             }
@@ -65,7 +65,9 @@ class server
         if(filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) || filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             return $header;
         }
-        throw new InvalidSetup("dyndns was not setup correctly and can't retrieve the ip. Check the reverse proxy configuration.");
+        //throw new \Exception("dyndns was not setup correctly and can't retrieve the ip. Check the reverse proxy configuration.");
+
+        return "";
     }
 
     public function error(int $http_code, string $error_message) {

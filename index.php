@@ -12,8 +12,8 @@ try {
     $rss = new dyndns\server("config.ini", "dyndns.db");
 
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $r) {
-        $r->addRoute('GET', '/update', ['server', 'update']);
-        $r->addRoute('GET', '/register', ['server', 'register']);
+        $r->addRoute('GET', '/update', 'update');
+        $r->addRoute('GET', '/register', 'register');
     }, [
         'cacheFile' => __DIR__ . '/route.cache'
     ]);
@@ -32,15 +32,12 @@ try {
             $rss->error(405, '405');
             break;
         case FastRoute\Dispatcher::FOUND:
-            $class = $routeInfo[1][0];
-            $handler = $routeInfo[1][1];
+            $handler = $routeInfo[1];
             $options = (array) $routeInfo[2];
             try {
-                $return = $rss->$class->$handler($options);
+                $return = $rss->$handler($options);
             } catch (\InvalidArgumentException $e) {
                 $rss->error(400, 'Invalid Argument: ' . $e->getMessage());
-            } catch (\InvalidSetup $e) {
-                $rss->error(500, 'dyndns was not setup correctly.');
             }
             if ($return[0] === true) {
                 $rss->success($return[1], $return[2]);
@@ -48,7 +45,7 @@ try {
             $rss->error($return[1], $return[2]);
             break;
     }
-} catch (\Exception $e) {
+} catch (Exception $e) {
     http_response_code(500);
     error_log("Uncatched exception." . $e->getMessage(), 0);
 }
