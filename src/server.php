@@ -48,10 +48,19 @@ class server
     }
 
     public function register(): array {
-        return [true, 200, "register was called"];
+        if($this->config->get('dyndns.allow_register') === true) {
+            if(empty($this->config->get('dyndns.register_token'))) {
+                throw new InvalidSetup("dyndns was not setup correctly the register_token is not set. Run $ openssl rand -hex 32 and paste it into the config.");
+            } else {
+                return [true, 200, "register was called"];
+            }
+        }
+        return [false, 403, "Registering is disabled in the config."];
     }
 
     private function get_ip(): string {
+        // ipv4=auto should use the IP from $_SERVER, else take from the get query
+        // ipv6=auto should use the IP from $_SERVER, else take from the get query
         $header = $_SERVER['X-Real-IP'];
         if(filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) || filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             return $header;

@@ -1,6 +1,8 @@
 [dyndns]
 domain = example.com
 provider = cloudflare
+allow_register = true
+register_token =
 
 [cloudflare]
 email = example@example.com
