@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+#TODO CREATE SAMPLE BASH CLIENT

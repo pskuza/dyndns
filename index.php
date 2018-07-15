@@ -12,7 +12,6 @@ try {
     $rss = new dyndns\server("config.ini", "dyndns.db");
 
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $r) {
-        $r->addRoute('GET', '/', ['server', 'get']);
         $r->addRoute('GET', '/update', ['server', 'update']);
         $r->addRoute('GET', '/register', ['server', 'register']);
     }, [
@@ -40,6 +39,8 @@ try {
                 $return = $rss->$class->$handler($options);
             } catch (\InvalidArgumentException $e) {
                 $rss->error(400, 'Invalid Argument: ' . $e->getMessage());
+            } catch (\InvalidSetup $e) {
+                $rss->error(500, 'dyndns was not setup correctly.');
             }
             if ($return[0] === true) {
                 $rss->success($return[1], $return[2]);

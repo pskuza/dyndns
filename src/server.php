@@ -44,12 +44,19 @@ class server
     }
 
     public function update(): array {
-
         return [true, 200, "update was called"];
     }
 
-    private function get_ip_from_headers() {
+    public function register(): array {
+        return [true, 200, "register was called"];
+    }
 
+    private function get_ip(): string {
+        $header = $_SERVER['X-Real-IP'];
+        if(filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) || filter_var($header, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return $header;
+        }
+        throw new InvalidSetup("dyndns was not setup correctly and can't retrieve the ip. Check the reverse proxy configuration.");
     }
 
     public function error(int $http_code, string $error_message) {
